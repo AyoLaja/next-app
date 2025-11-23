@@ -4,9 +4,7 @@ import { userSchema } from '../schema';
 import prisma from '@/lib/prisma';
 
 interface UserProps {
-  params: {
-    id: string;
-  };
+  params: Promise<{ id: string }>;
 }
 
 export async function GET(request: NextRequest, { params }: UserProps) {
@@ -14,7 +12,7 @@ export async function GET(request: NextRequest, { params }: UserProps) {
 
   const user = await prisma.user.findUnique({
     where: {
-      id: parseInt(id),
+      id,
     },
   });
 
@@ -42,7 +40,7 @@ export async function PUT(request: NextRequest, { params }: UserProps) {
   // Check if the user exists
   const existingUser = await prisma.user.findUnique({
     where: {
-      id: parseInt(id),
+      id,
     },
   });
 
@@ -53,7 +51,7 @@ export async function PUT(request: NextRequest, { params }: UserProps) {
   // Update the user
   const updatedUser = await prisma.user.update({
     where: {
-      id: parseInt(id),
+      id,
     },
     data: {
       name: body.name,
@@ -70,7 +68,7 @@ export async function DELETE(request: NextRequest, { params }: UserProps) {
   // Check if the user exists
   const existingUser = await prisma.user.findUnique({
     where: {
-      id: parseInt(id),
+      id,
     },
   });
 
@@ -81,7 +79,7 @@ export async function DELETE(request: NextRequest, { params }: UserProps) {
   // Delete the user
   const deletedUser = await prisma.user.delete({
     where: {
-      id: parseInt(id),
+      id,
     },
   });
 
